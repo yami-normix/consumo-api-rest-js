@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perritos aleatorios</title>
+</head>
+<body>
+  <h1>Perritos App</h1>
+
+  <span id="error"></span>
+
+  <section id="randomDogs">
+    <h2>Perritos aleatorios</h2>
+
+    <article>
+      <img id="img1" width="150" alt="Foto perrito aleatorio">
+      <button id="btn1">
+        Guardar perrito en favoritos
+      </button>
+    </article>
+
+    <article>
+      <img id="img2" width="150" alt="Foto perrito aleatorio">
+      <button id="btn2">
+        Guardar perrito en favoritos
+      </button>
+    </article>
+    
+
+    <button onclick="loadRandomDogs()">Recargar</button>
+  </section>
+
+  <section id="uploadingDog">
+    <h2>Sube la foto de tu Perrito</h2>
+    <form id="uploadingForm">
+      <input id="file" type="file" name="file">
+      <button type="button" onclick="uploadDogPhoto">Subir foto del perrito</button>
+    </form>
+  </section>
+  
+  <section id="favoriteDogs">
+    <h2>Perros favoritos</h2>
+
+    <article>
+      <img id="img1" width="150" alt="Foto perrito aleatorio">
+      <button>Sacar al perrito de favoritos</button>
+    </article>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>
