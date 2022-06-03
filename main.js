@@ -1,3 +1,7 @@
+const api = axios.create({
+  baseURL: 'https://api.thecatapi.com/v1'
+});
+api.defaults.headers.common['X-API-KEY'] = "c08d415f-dea7-4a38-bb28-7b2188202e46";
 const API_URL_RANDOM = 'https://api.thecatapi.com/v1/images/search?limit=2';
 const API_URL_FAVOTITES = 'https://api.thecatapi.com/v1/favourites?api_key=c08d415f-dea7-4a38-bb28-7b2188202e46';
 const API_URL_FAVOTITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}?api_key=c08d415f-dea7-4a38-bb28-7b2188202e46`;
@@ -61,22 +65,24 @@ async function loadFavouriteMichis() {
 }
 
 async function saveFavouriteMichi(id) {
-  const res = await fetch(API_URL_FAVOTITES, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      image_id: id
-    }),
-  });
-  const data = await res.json();
+  const { data, status} = await api.post('/favourites', {
+    image_id: id,
+  })
+  // const res = await fetch(API_URL_FAVOTITES, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     image_id: id
+  //   }),
+  // });
+  // const data = await res.json();
 
   console.log('Save')
-  console.log(res)
 
-  if (res.status !== 200) {
-    spanError.innerHTML = "Hubo un error: " + res.status + data.message;
+  if (status !== 200) {
+    spanError.innerHTML = "Hubo un error: " + status + data.message;
   }else{
       console.log("Michi guardado en favoritos");
       loadFavouriteMichis();
@@ -103,7 +109,7 @@ async function uploadMichiPhoto() {
   const formData = new FormData(form);
 
   //file pertenece al name del primer input dentro del form. Y este pasa a ser la llave
-  console.log("Revisando" + formData.get("file"))
+  console.log(formData.get("file"))
 
   const res = await fetch(API_URL_UPLOAD, {
     method: "POST",
@@ -115,12 +121,17 @@ async function uploadMichiPhoto() {
     body: formData,
   })
   const data = await res.json();
-  if (res.status !== 200) {
+  if (res.status !== 201) {
     spanError.innerHTML = `Hubo un error al subir michi: ${res.status} ${data.message}`
+}else {
+  console.log("Foto de michi cargada :)");
+  console.log({ data });
+  console.log(data.url);
+  saveFavouriteMichi(data.id) //para agregar el michi cargado a favoritos.
 }
 
 }
 
 loadRandomMichis();
 loadFavouriteMichis();
-uploadMichiPhoto();
+

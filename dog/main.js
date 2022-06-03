@@ -1,3 +1,8 @@
+
+const api = axios.create({
+  baseURL: "https://api.thedogapi.com/v1"
+});
+api.defaults.headers['X-API-KEY'] = "3e41c918-6ff0-4288-ac4b-c1c52d6f8ced"
 const API_URL_RANDOM = 'https://api.thedogapi.com/v1/images/search?limit=2';
 const API_URL_FAVOTITES = 'https://api.thedogapi.com/v1/favourites?api_key=3e41c918-6ff0-4288-ac4b-c1c52d6f8ced';
 const API_URL_FAVOTITES_DELETE = (id) => `https://api.thedogapi.com/v1/favourites/${id}?api_key=3e41c918-6ff0-4288-ac4b-c1c52d6f8ced`;
@@ -116,7 +121,7 @@ async function uploadDogPhoto() {
     body: formData,
   })
   const data = await res.json();
-  if (res.status !== 200) {
+  if (res.status !== 201) {
     spanError.innerHTML = `Hubo un error al subir el perrito: ${res.status} ${data.message}`
 }else {
     console.log('Foto de Perrito subida')
@@ -131,4 +136,3 @@ async function uploadDogPhoto() {
 
 loadRandomDogs();
 loadFavouriteDogs();
-uploadDogPhoto();
